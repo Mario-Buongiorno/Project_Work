@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Work - Sicurezza aziendale</title>
+
+  <!-- Inclusione Chart.js per grafici -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Foglio di stile -->
+  <link rel="stylesheet" href="styles/styles.css" />
+
+  <!-- Script JS principale -->
+  <script defer src="scripts/script.js"></script>
+</head>
+
+<body>
+
+  <!-- Contenitore principale -->
+  <div class="overlay-container">
+
+    <!-- HEADER -->
+    <header>
+      <h1 id="main-title">Guida al calcolo del fattore di rischio</h1>
+
+      <!-- Frasi motivazionali -->
+      <div class="citazione-sicurezza">
+        <p id="frase-sicurezza"></p>
+      </div>
+    </header>
+
+    <!-- MENU A TAB -->
+    <nav class="tabs">
+      <button class="tab-link active" data-tab="download">Download</button>
+      <button class="tab-link" data-tab="esempi">Esempi</button>
+      <button class="tab-link" data-tab="simulatore">Simulatore</button>
+      <button class="tab-link" data-tab="feedback">Feedback</button>
+      <button class="tab-link" data-tab="lau">Il Laureando</button>
+    </nav>
+
+    <!-- MAIN CON VIDEO DI BACKGROUND E CONTENUTI -->
+    <main>
+
+      <!-- VIDEO DI BACKGROUND -->
+      <div class="main-background">
+        <video autoplay muted loop playsinline id="bg-video">
+          <source src="assets/background.mp4" type="video/mp4">
+          Il tuo browser non supporta il tag video.
+        </video>
+        <div class="video-overlay"></div>
+      </div>
+
+      <!-- SEZIONE DOWNLOAD -->
+      <section class="tab-content active" id="download">
+        <h2>📄 Scarica il documento</h2>
+        <p>
+          Scarica il documento ufficiale in formato PDF per comprendere in modo approfondito il calcolo del fattore di rischio aziendale, secondo le normative vigenti.
+        </p>
+        <a class="btn-download" href="assets/Project Work - Fattore di rischio.pdf" download>
+          📥 Scarica il documento PDF
+        </a>        
+        
+      </section>
+
+      <!-- SEZIONE ESEMPI -->
+      <section class="tab-content" id="esempi">
+        <h2>📊 Esempi pratici e visualizzazione del rischio</h2>
+        <p>I grafici riportati di seguito visualizzano gli <strong>esempi pratici presenti nel documento PDF</strong> scaricabile nella sezione "Download".</p>
+
+        <h3>Scenario 1 – Server esposto</h3>
+        <canvas id="graficoScenario1" width="400" height="300"></canvas>
+
+        <h3>Scenario 2 – Password debole</h3>
+        <canvas id="graficoScenario2" width="400" height="300"></canvas>
+
+        <h3>Confronto tra i due scenari</h3>
+        <canvas id="graficoConfronto" width="500" height="300"></canvas>
+      </section>
+
+      <!-- SEZIONE SIMULATORE -->
+      <section class="tab-content" id="simulatore">
+        <h2>🧮 Simulatore del fattore di rischio</h2>
+        <form id="simulatoreForm">
+          <div class="rating-group">
+            <label for="probabilita">Probabilità (1-5):</label>
+            <p class="field-description">Quanto è probabile che il rischio si verifichi (1 = raro, 5 = molto probabile)</p>
+            <input type="number" id="probabilita" name="probabilita" min="1" max="5" required placeholder="Inserisci un valore da 1 a 5" />
+          </div>
+          <div class="rating-group">
+            <label for="gravita">Gravità (1-5):</label>
+            <p class="field-description">Quanto gravi sarebbero le conseguenze (1 = lievi, 5 = critiche)</p>
+            <input type="number" id="gravita" name="gravita" min="1" max="5" required placeholder="Inserisci un valore da 1 a 5" />
+          </div>
+          <div class="rating-group">
+            <label for="esposizione">Esposizione (1-5):</label>
+            <p class="field-description">Frequenza di esposizione al rischio (1 = rara, 5 = continua)</p>
+            <input type="number" id="esposizione" name="esposizione" min="1" max="5" required placeholder="Inserisci un valore da 1 a 5" />
+          </div>
+          <div class="rating-group">
+            <label for="mitigazione">Mitigazione (0-10):</label>
+            <p class="field-description">Efficacia delle misure correttive (0 = nessuna, 10 = totalmente efficace)</p>
+            <input type="number" id="mitigazione" name="mitigazione" min="0" max="10" required placeholder="Inserisci un valore da 0 a 10" />
+          </div>
+          <button type="button" class="btn-feedback" onclick="calcolaRischio()">Calcola</button>
+        </form>
+        <div id="outputRischio" class="output-rischio">
+          <p><strong>Rischio Base:</strong> <span id="risBase">-</span></p>
+          <p><strong>Rischio Esteso:</strong> <span id="risEsteso">-</span></p>
+          <p><strong>Rischio Residuo:</strong> <span id="risResiduo">-</span></p>
+          <p><strong>Valutazione:</strong> <span id="valutazioneFinale">-</span></p>
+        </div>
+      </section>
+
+      <!-- SEZIONE FEEDBACK -->
+      <section class="tab-content" id="feedback">
+        <h2>📋 Valutazione del documento e dell'interfaccia</h2>
+        <p>Aiutaci a migliorare il documento PDF e l'usabilità del sito. Le informazioni raccolte saranno utilizzate per il <strong>rapporto di valutazione</strong> del Project Work.</p>
+        <form id="feedbackForm">
+          <div class="rating-group">
+            <label>Chiarezza del documento PDF:</label>
+            <select name="val-doc" required>
+              <option value="">Seleziona...</option>
+              <option value="1">1 - Poco chiaro</option>
+              <option value="3">3 - Discreto</option>
+              <option value="5">5 - Molto chiaro</option>
+            </select>
+          </div>
+
+          <div class="rating-group">
+            <label>Utilità del simulatore:</label>
+            <select name="val-sim" required>
+              <option value="">Seleziona...</option>
+              <option value="1">1 - Poco utile</option>
+              <option value="3">3 - Utile</option>
+              <option value="5">5 - Molto utile</option>
+            </select>
+          </div>
+
+          <div class="rating-group">
+            <label>Facilità d’uso dell’interfaccia:</label>
+            <select name="val-ui" required>
+              <option value="">Seleziona...</option>
+              <option value="1">1 - Difficile</option>
+              <option value="3">3 - Intuitiva</option>
+              <option value="5">5 - Molto intuitiva</option>
+            </select>
+          </div>
+
+          <div class="textarea-group">
+            <label for="commenti">Commenti, suggerimenti o critiche costruttive:</label><br />
+            <textarea id="commenti" name="commenti" rows="4" placeholder="Es. cosa ti è piaciuto, cosa miglioreresti, suggerimenti per renderlo più chiaro..."></textarea>
+          </div>
+
+          <p><em>I risultati saranno analizzati nel rapporto finale del progetto.</em></p>
+
+          <button type="submit" class="btn-feedback">Invia il tuo feedback</button>
+        </form>
+        <p id="messaggioFeedback" class="feedback-msg"></p>
+      </section>
+
+      <!-- SEZIONE IL LAUREANDO -->
+      <section class="tab-content" id="lau">
+        <h2>🎓 Il Laureando</h2>
+
+        <div class="lau-section">
+          <h3>🙋‍♂️ Chi sono</h3>
+          <p>Mi chiamo <strong>Mario Buongiorno</strong>, ho 23 anni e sono originario di <strong>Monopoli</strong>, in provincia di Bari. Mi sono iscritto all’università <strong>Pegaso</strong> nel <strong>febbraio 2024</strong>, nel corso di laurea in <strong>Informatica (L-31)</strong>, dopo aver già sostenuto alcuni esami presso un ateneo statale che ho dovuto interrompere per avanzare nella mia carriera lavorativa.</p>
+
+          <p>Conciliare studio e lavoro full time non è stato semplice, ma la mia <strong>passione per l’informatica</strong> e l’evoluzione che sta vivendo il settore, soprattutto con l’avvento dell’<strong>Intelligenza Artificiale</strong>, mi hanno spinto a continuare.</p>
+
+          <p>Ho scelto un’università telematica perché offre <strong>flessibilità reale</strong>: una risorsa fondamentale per chi lavora e non può seguire orari rigidi.  
+          Oggi, purtroppo, esistono ancora <strong>pregiudizi</strong> su chi sceglie percorsi diversi dall’università statale. Io credo invece che il <strong>valore di uno studente si misuri nella dedizione con cui studia e applica ciò che apprende</strong>, indipendentemente dal formato.</p>
+        </div>
+
+        <div class="lau-section">
+          <h3>💼 Esperienza lavorativa</h3>
+          <p>Da oltre <strong>tre anni</strong> lavoro come <strong>Analista Funzionale</strong> presso <strong>AngelCompany</strong>, una multinazionale che gestisce diverse aziende di prodotto. In azienda, contribuisco attivamente a una serie di processi chiave:</p>
+          <div class="accordion-control" style="margin: 1rem 0;">
+            <button id="toggleTable" class="btn-feedback">
+              <span id="toggleText">Mostra Dettagli Lavorativi</span>
+              <span id="toggleIcon" class="accordion-icon">▼</span>
+            </button>
+          </div>
+
+          <div id="accordionWrapper" class="accordion-wrapper">
+            <table id="tabellaResponsabilita" class="lau-table">
+              <thead>
+                <tr>
+                  <th>Attività / Responsabilità</th>
+                  <th>Descrizione</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Analisi funzionale</td><td>Raccolta, formalizzazione e gestione dei requisiti funzionali</td></tr>
+                <tr><td>Automazione interna</td><td>Sviluppo di tool custom per snellire attività ripetitive e manuali</td></tr>
+                <tr><td>Gestione dei dati sensibili</td><td>Archiviazione sicura di dati aziendali e logiche di accesso controllato</td></tr>
+                <tr><td>Licenze software</td><td>Monitoraggio, rinnovo e ottimizzazione dei costi legati a licenze IT</td></tr>
+                <tr><td>DevOps</td><td>Collaborazione in processi CI/CD, versionamento, deploy e ambienti di test</td></tr>
+                <tr><td>Metodologia Scrum</td><td>Partecipazione attiva a sprint planning, backlog refinement e daily meeting</td></tr>
+                <tr><td>Process improvement</td><td>Mappatura dei processi e proposta di soluzioni per migliorare l'efficienza</td></tr>
+                <tr><td>Supporto tecnico e documentazione</td><td>Redazione di documentazione tecnica, flussi operativi, guide per i reparti</td></tr>
+                <tr><td>Formazione interna</td><td>Affiancamento dei team nell’adozione di nuovi strumenti e soluzioni software</td></tr>
+                <tr><td>Interfaccia tra business e sviluppo</td><td>Traduzione dei bisogni aziendali in specifiche tecniche per il reparto IT</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        <div class="lau-section">
+          <h3>🧩 Perché ho scelto questa traccia</h3>
+          <p>Ho scelto di sviluppare una soluzione legata alla <strong>sicurezza aziendale</strong> e al calcolo del <strong>fattore di rischio</strong> perché credo che la tecnologia debba essere non solo funzionale ma anche <strong>accessibile e comprensibile</strong>. La sicurezza è un tema critico e spesso trattato in modo troppo tecnico o distante dagli utenti.</p>
+
+          <p>Con questo progetto ho voluto <strong>rendere visivo e interattivo un concetto astratto</strong>, sfruttando le mie competenze front-end per realizzare un’interfaccia semplice ma efficace, che permetta a chiunque – anche senza conoscenze specialistiche – di comprendere il livello di rischio e l’importanza della mitigazione.</p>
+
+          <p>Credo che un buon software non debba solo funzionare, ma anche <strong>comunicare bene</strong>. Questo approccio rispecchia pienamente il mio modo di intendere l’informatica: come ponte tra la tecnica e le persone.</p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+      <p>Project Work per il corso di laurea in Informatica (L-31) - 2025</p>
+      <p>Sviluppato da Mario Buongiorno</p>
+    </footer>
+
+  </div>
+</body>
+</html>
